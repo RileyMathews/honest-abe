@@ -9,11 +9,16 @@ const showPoliticians = () => {
         const commercialInterests = response.commercialInterests
         const PACs = response.PACs
         const politiciansBills = response.politiciansBills
+        const politiciansPACs = response.politiciansPACs
+
 
         //document fragment
         const fragment = document.createDocumentFragment()
 
+        console.log(response)
         politicians.forEach(politician => {
+
+
             //find bills politician has sponsored
             //billsId becomes object representing the intersection of bills and politicians
             let billsId = politiciansBills.filter(intersection => intersection.politiciansId === politician.id)
@@ -24,7 +29,19 @@ const showPoliticians = () => {
 
             //iterate through bills array and check if the billsId array holds the id of current bill
             const currentBills = bills.filter(bill => billsId.includes(bill.id))
-            console.log(currentBills)
+
+            //find pacs who have funded politician
+            let PACsPoliticnanIntersections = politiciansPACs.filter(intersection => {
+                return intersection.politiciainsId === politician.id
+            })
+
+            PACsPoliticnanIntersections = PACsPoliticnanIntersections.map(intersection => intersection.PACsId)
+
+            //get related pacs
+            const relatedPACs = PACs.filter(PAC => {
+                return PACsPoliticnanIntersections.includes(PAC.id)
+            })
+
             //append info to the dom
             $("#main-output").append(
                 `
@@ -34,7 +51,11 @@ const showPoliticians = () => {
                     </header>
                     <section class="politician__bills" id="politician__bills__${politician.id}">
                         <h3>Sponsored Bills</h3>
-                        <div class="bills-output"></div>
+                        <div id="bills__output__${politician.id}"></div>
+                    </section>
+                    <section id="politician__influencers__${politician.id}">
+                        <h3>Realted PACs</h3>
+                        <ul id="PACs__for__${politician.id}"
                     </section>
                 </article>
                 `
@@ -42,7 +63,16 @@ const showPoliticians = () => {
 
             //append bills
             currentBills.forEach(bill => {
-                $(`#politician__bills__${politician.id}`).append(`<h4>${bill.name}</h4>`)
+                const billDiv = $("<div class=\"bill\">")
+                billDiv.append(`<h4>${bill.name}</h4>`)
+                billInterest = commercialInterests.find(interest => bill.commercialInterestId === interest.id)
+                billDiv.append(`<p>Interest: ${billInterest.industry}`)
+                $(`#bills__output__${politician.id}`).append(billDiv)
+            })
+
+            //append related pacs
+            relatedPACs.forEach(PAC => {
+                $(`#PACs__for__${politician.id}`).append(`<ul>${PAC.name}</ul>`)
             })
         })
     })

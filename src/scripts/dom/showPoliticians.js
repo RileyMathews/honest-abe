@@ -15,7 +15,6 @@ const showPoliticians = () => {
         //document fragment
         const fragment = document.createDocumentFragment()
 
-        console.log(response)
         politicians.forEach(politician => {
 
 

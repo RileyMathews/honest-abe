@@ -10,6 +10,7 @@ const showPoliticians = () => {
         const PACs = response.PACs
         const politiciansBills = response.politiciansBills
         const politiciansPACs = response.politiciansPACs
+        const billsInterests = response.billsInterest
 
 
         //document fragment
@@ -54,7 +55,7 @@ const showPoliticians = () => {
                     </section>
                     <section id="politician__influencers__${politician.id}">
                         <h3>Realted PACs</h3>
-                        <ul id="PACs__for__${politician.id}"
+                        <ul id="PACs__for__${politician.id}"></ul>
                     </section>
                 </article>
                 `
@@ -64,15 +65,26 @@ const showPoliticians = () => {
             currentBills.forEach(bill => {
                 const billDiv = $("<div class=\"bill\">")
                 billDiv.append(`<h4>${bill.name}</h4>`)
-                billInterest = commercialInterests.find(interest => bill.commercialInterestId === interest.id)
-                billDiv.append(`<p>Interest: ${billInterest.industry}`)
+                interestList = $("<ul>")
+
+                //find commercial interests the bill impacts
+                interestIntersections = billsInterests.filter(intersection => intersection.billId === bill.id)
+                console.log(interestIntersections)
+                interestIntersections.forEach(intersection => {
+                    //get the interest associated with the intersection
+                    commercialInterest = commercialInterests.find(interest => interest.id === intersection.CommercialInterestId)
+                    console.log(commercialInterest)
+                    interestList.append(`<li>${commercialInterest.industry}</li>`)
+                })
+                billDiv.append(interestList)
                 $(`#bills__output__${politician.id}`).append(billDiv)
             })
 
             //append related pacs
             relatedPACs.forEach(PAC => {
-                $(`#PACs__for__${politician.id}`).append(`<ul>${PAC.name}</ul>`)
+                $(`#PACs__for__${politician.id}`).append(`<li>${PAC.name}</li>`)
             })
+
         })
     })
 }

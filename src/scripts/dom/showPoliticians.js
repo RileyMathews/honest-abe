@@ -48,6 +48,7 @@ const showPoliticians = () => {
                                                                 //check to see if current bill already has a header built there
                                                                 if (!$(`#${politician.id}__${bill.id}`).length) {
                                                                     currentCard.append(`<h4 id="${politician.id}__${bill.id}">${bill.name}</h4>`)
+                                                                    currentCard.append(`<ul id="${politician.id}__${bill.id}__list"></ul>`)
                                                                 }
 
                                                                 //if not build it and ul element

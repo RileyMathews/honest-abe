@@ -44,22 +44,17 @@ const showPoliticians = () => {
                                                                 let cardId = politician.id
                                                                 //use politician id to get the card we need to edit
                                                                 let currentCard = $(`#bills__output__${politician.id}`)
-
                                                                 //check to see if current bill already has a header built there
                                                                 if (!$(`#${politician.id}__${bill.id}`).length) {
                                                                     //if not build it and ul element
                                                                     currentCard.append(`<h4 id="${politician.id}__${bill.id}">${bill.name}</h4>`)
                                                                     currentCard.append(`<ul id="${politician.id}__${bill.id}__list"></ul>`)
                                                                 }
-
-
                                                                 //check to see if ul element has current industry interest
                                                                 if (!$(`#${politician.id}__${bill.id}__${interest.id}`).length) {
                                                                     //if not append li element to ul
                                                                     $(`#${politician.id}__${bill.id}__list`).append(`<li id="${politician.id}__${bill.id}__${interest.id}">${interest.industry}</li>`)
                                                                 }
-
-
                                                             })
                                                         })
                                                 })

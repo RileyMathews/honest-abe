@@ -38,8 +38,8 @@ const showPoliticians = () => {
                                                 interestsIntersections.forEach(interestsIntersection => {
                                                     APIManager.getItemsByParameter("commercialInterests", "id", interestsIntersection.CommercialInterestId)
                                                         .then(interests => {
-                                                            interests.forEach(interset => {
-                                                                console.log(`${politician.name} ${bill.name} ${interests.industry}`, interset)
+                                                            interests.forEach(interest => {
+                                                                console.log(`${politician.name} ${bill.name} ${interests.industry}`, interest)
                                                                 //get politician id
                                                                 let cardId = politician.id
                                                                 //use politician id to get the card we need to edit
@@ -47,14 +47,17 @@ const showPoliticians = () => {
 
                                                                 //check to see if current bill already has a header built there
                                                                 if (!$(`#${politician.id}__${bill.id}`).length) {
+                                                                    //if not build it and ul element
                                                                     currentCard.append(`<h4 id="${politician.id}__${bill.id}">${bill.name}</h4>`)
                                                                     currentCard.append(`<ul id="${politician.id}__${bill.id}__list"></ul>`)
                                                                 }
 
-                                                                //if not build it and ul element
 
                                                                 //check to see if ul element has current industry interest
-                                                                //if not append li element to ul
+                                                                if (!$(`#${politician.id}__${bill.id}__${interest.id}`).length) {
+                                                                    //if not append li element to ul
+                                                                    $(`#${politician.id}__${bill.id}__list`).append(`<li id="${politician.id}__${bill.id}__${interest.id}">${interest.industry}</li>`)
+                                                                }
 
 
                                                             })
@@ -64,7 +67,24 @@ const showPoliticians = () => {
                                     })
                                 })
                         })
-                    })
+                    }) //end of first bill api call
+
+
+                    //get politicians related PACs
+                    APIManager.getItemsByParameter("politiciansPACs", "politiciainsId", politician.id)
+                        .then(intersections => {
+                            intersections.forEach(intersection => {
+                                APIManager.getItemsByParameter("PACs", "id", intersection.PACsId)
+                                    .then(PACs => {
+                                        PACs.forEach(PAC => {
+
+                                            if(!$(`#${politician.id}__PAC__${PAC.id}`).length) {
+                                                $(`#PACs__for__${politician.id}`).append(`<li id="${politician.id}__PAC__${PAC.id}">${PAC.name}</li>`)
+                                            }
+                                        })
+                                    })
+                            })
+                        })
             })
         })
 }

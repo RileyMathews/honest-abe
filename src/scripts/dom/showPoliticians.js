@@ -33,7 +33,7 @@ const showPoliticians = () => {
                             APIManager.getItemsByParameter("bills", "id", intersection.billsId)
                                 .then(bills => {
                                     bills.forEach(bill => {
-                                        APIManager.getItemsByParameter("billsInterest", "billId", bill.id)
+                                        APIManager.getItemsByParameter("billsInterests", "billId", bill.id)
                                             .then(interestsIntersections => {
                                                 interestsIntersections.forEach(interestsIntersection => {
                                                     APIManager.getItemsByParameter("commercialInterests", "id", interestsIntersection.CommercialInterestId)

@@ -2,7 +2,11 @@
 const $ = require("jquery")
 const showPoliticiansAll = require("./showPoliticiansAll")
 const showPoliticians = require("./showPoliticians")
+const showPoliticiansSteve = require("./showPoliticiansStevesWay")
 
-showPoliticians()
+
+showPoliticiansSteve()
+
+// showPoliticians()
 
 // showPoliticiansAll()

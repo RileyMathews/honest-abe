@@ -32,8 +32,7 @@ const buildPoliticianCard = (politician) => {
             <section class="politician__influencers">
                 <h3>Related PACs</h3>
                 <ul>
-                    <li>American Gas Association</li>
-                    <li>League of Conservation Voters Action Fund</li>
+                    ${politician.pacs.map(p => `<li>${p.PACs.name}</li>`).join("")}
                 </ul>
             </section>
         </article>
